@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ipinfo/bloc/blocs.dart';
 import 'package:ipinfo/styles.dart';
 import 'package:ipinfo/widgets/custom_button.dart';
+import 'package:ipinfo/widgets/ease_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -19,7 +21,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BlocConsumer<IpBloc, IpState>(
       listener: (context, state) {
-        print("CURRENT STATE $state");
         _showResult(context, state);
         _showError(context, state);
       },
@@ -74,7 +75,12 @@ class _HomeViewState extends State<HomeView> {
                         },
                       ),
                       const Spacer(),
-                      Text("antoniopetricciuoli.com", style: Styles.kSubtitle),
+                      EaseIn(
+                        onTap: () async =>
+                            await launch('https://antoniopetricciuoli.com'),
+                        child: Text("antoniopetricciuoli.com",
+                            style: Styles.kSubtitle),
+                      ),
                     ],
                   ),
                 ),
@@ -116,6 +122,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     _valueResult(Icons.flag, state.ip.country),
                     _valueResult(Icons.public, state.ip.region),
+                    _valueResult(Icons.location_city, state.ip.city),
                     _valueResult(Icons.schedule, state.ip.timezone),
                     _valueResult(Icons.local_post_office, state.ip.postal),
                     _valueResult(Icons.dns, state.ip.org),

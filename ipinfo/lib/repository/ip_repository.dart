@@ -13,7 +13,7 @@ class IpRepository {
         Uri.parse("$_baseUrl/$ip?token=$ipToken"),
         headers: {'Content-type': 'application/json'},
       );
-      print(response.body);
+
       final json = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -22,7 +22,6 @@ class IpRepository {
         throw Exception("Ip not found");
       }
     } catch (e) {
-      print(e);
       throw Exception("Ip not found");
     }
   }
